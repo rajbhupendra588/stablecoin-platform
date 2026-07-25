@@ -1,0 +1,1 @@
+-- invoice-service V1__baseline.sql

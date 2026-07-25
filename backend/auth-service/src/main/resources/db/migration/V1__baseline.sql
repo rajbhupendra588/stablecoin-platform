@@ -1,0 +1,1 @@
+-- auth-service V1__baseline.sql

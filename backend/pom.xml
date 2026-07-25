@@ -12,10 +12,15 @@
     <modules>
         <module>shared-kernel</module>
         <module>gateway-service</module>
+        <module>auth-service</module>
         <module>invoice-service</module>
+        <module>ai-validation-service</module>
+        <module>risk-engine</module>
         <module>payment-orchestrator</module>
         <module>stablecoin-service</module>
         <module>ledger-service</module>
+        <module>reconciliation-service</module>
+        <module>notification-service</module>
     </modules>
 
     <properties>
@@ -23,6 +28,15 @@
         <spring.boot.version>3.5.3</spring.boot.version>
         <maven.compiler.release>21</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <logstash.logback.version>8.0</logstash.logback.version>
+        <spotless.version>2.44.5</spotless.version>
+        <checkstyle.version>3.6.0</checkstyle.version>
+        <pmd.version>3.26.0</pmd.version>
+        <spotbugs.version>4.9.4.0</spotbugs.version>
+        <jacoco.version>0.8.12</jacoco.version>
+        <enforcer.version>3.5.0</enforcer.version>
+        <dependency-check.version>12.1.0</dependency-check.version>
+        <rewrite.version>6.16.4</rewrite.version>
     </properties>
 
     <dependencyManagement>
@@ -34,21 +48,31 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash.logback.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <build>
         <pluginManagement>
             <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.13.0</version>
-                    <configuration>
-                        <release>${maven.compiler.release}</release>
-                    </configuration>
-                </plugin>
+                <plugin><groupId>org.springframework.boot</groupId><artifactId>spring-boot-maven-plugin</artifactId><version>${spring.boot.version}</version></plugin>
+                <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><version>3.13.0</version><configuration><release>${maven.compiler.release}</release></configuration></plugin>
+                <plugin><groupId>com.diffplug.spotless</groupId><artifactId>spotless-maven-plugin</artifactId><version>${spotless.version}</version><configuration><java><googleJavaFormat/></java><pom><sortPom/></pom></configuration></plugin>
+                <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-checkstyle-plugin</artifactId><version>${checkstyle.version}</version><configuration><configLocation>../config/checkstyle/checkstyle.xml</configLocation></configuration></plugin>
+                <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-pmd-plugin</artifactId><version>${pmd.version}</version><configuration><rulesets><ruleset>../config/pmd/ruleset.xml</ruleset></rulesets></configuration></plugin>
+                <plugin><groupId>com.github.spotbugs</groupId><artifactId>spotbugs-maven-plugin</artifactId><version>${spotbugs.version}</version></plugin>
+                <plugin><groupId>org.jacoco</groupId><artifactId>jacoco-maven-plugin</artifactId><version>${jacoco.version}</version></plugin>
+                <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-enforcer-plugin</artifactId><version>${enforcer.version}</version><configuration><rules><requireJavaVersion><version>[21,)</version></requireJavaVersion><requireMavenVersion><version>[3.9,)</version></requireMavenVersion></rules></configuration></plugin>
+                <plugin><groupId>org.owasp</groupId><artifactId>dependency-check-maven</artifactId><version>${dependency-check.version}</version></plugin>
+                <plugin><groupId>org.openrewrite.maven</groupId><artifactId>rewrite-maven-plugin</artifactId><version>${rewrite.version}</version></plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-enforcer-plugin</artifactId><executions><execution><id>enforce</id><goals><goal>enforce</goal></goals></execution></executions></plugin>
+        </plugins>
     </build>
 </project>
