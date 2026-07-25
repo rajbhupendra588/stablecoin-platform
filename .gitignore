@@ -1,0 +1,38 @@
+# IntelliJ
+.idea/
+*.iml
+
+# VS Code
+.vscode/
+
+# Maven
+target/
+**/target/
+
+# Node
+node_modules/
+dist/
+coverage/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Docker
+*.pid
+
+# Test artifacts
+surefire-reports/
+failsafe-reports/
+
+# Generated
+*.class
