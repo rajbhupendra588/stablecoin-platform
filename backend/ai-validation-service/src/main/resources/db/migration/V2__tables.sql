@@ -1,0 +1,1 @@
+-- ai-validation-service V2__tables.sql

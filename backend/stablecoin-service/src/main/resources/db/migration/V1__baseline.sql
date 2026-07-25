@@ -1,0 +1,1 @@
+-- stablecoin-service V1__baseline.sql

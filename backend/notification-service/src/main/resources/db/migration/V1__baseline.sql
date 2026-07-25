@@ -1,0 +1,1 @@
+-- notification-service V1__baseline.sql
