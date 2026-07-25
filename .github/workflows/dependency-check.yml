@@ -1,16 +1,21 @@
 name: OWASP Dependency Check
+
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
+
+permissions:
+  contents: read
+
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
-        if: runner.os == 'Linux'
         with:
           distribution: temurin
           java-version: '21'
+          cache: maven
       - run: mvn -B -f backend/pom.xml org.owasp:dependency-check-maven:check

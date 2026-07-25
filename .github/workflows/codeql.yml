@@ -1,16 +1,29 @@
 name: CodeQL
+
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
+  schedule:
+    - cron: '24 3 * * 1'
+
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+
 jobs:
-  verify:
+  analyze:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
-        if: runner.os == 'Linux'
         with:
           distribution: temurin
           java-version: '21'
+          cache: maven
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: java
       - run: mvn -B -f backend/pom.xml -DskipTests package
+      - uses: github/codeql-action/analyze@v3
